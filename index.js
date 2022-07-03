@@ -33,6 +33,7 @@ async function run() {
     try {
         await client.connect();
         const userCollection = client.db('freecodecamp').collection('users');
+        const courseCollection = client.db('freecodecamp').collection('courses');
 
         app.get('/user', verifyJWT, async (req, res) => {
             const users = await userCollection.find().toArray();
@@ -52,6 +53,10 @@ async function run() {
             const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN, { expiresIn: '24h' });
             res.send({ result, token });
         });
+        app.get('/courses', verifyJWT, async (req, res) => {
+            const courses = await courseCollection.find().toArray();
+            res.send(courses)
+        })
     }
     finally { }
 }
