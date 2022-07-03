@@ -53,7 +53,9 @@ async function run() {
             const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN, { expiresIn: '24h' });
             res.send({ result, token });
         });
-        app.get('/courses', verifyJWT, async (req, res) => {
+
+        //get all courses
+        app.get('/courses', async (req, res) => {
             const courses = await courseCollection.find().toArray();
             res.send(courses)
         })
